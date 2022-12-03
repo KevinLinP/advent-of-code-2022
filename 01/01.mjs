@@ -2,7 +2,7 @@ import * as fs from 'fs'
 import * as readline from 'readline'
 
 function parseElves() {
-  const file = fs.readFileSync('part-1-input.txt', {encoding: 'utf8'}).trim()
+  const file = fs.readFileSync('01-input.txt', {encoding: 'utf8'}).trim()
 
   let elfStrings = file.split('\n\n')
   let elves = elfStrings.map((elfString) => {
