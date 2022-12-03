@@ -9,8 +9,9 @@ function parse() {
 }
 
 function priority(group) {
-  const intersection = _.intersection(group[0].split(''), group[1].split(''), group[2].split(''))[0]
-  const charCode = intersection.charCodeAt(0)
+  const lineChars = group.map((line) => line.split(''))
+  const intersection = _.intersection(...lineChars)
+  const charCode = intersection[0].charCodeAt(0)
 
   let score
   if (charCode <= 90) {
