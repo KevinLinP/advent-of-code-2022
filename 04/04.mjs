@@ -22,10 +22,21 @@ function isFullyContained([[firstStart, firstEnd], [secondStart, secondEnd]]) {
   return fullyContained
 }
 
+function isOverlap([[firstStart, firstEnd], [secondStart, secondEnd]]) {
+  let exclusive = (firstEnd < secondStart) || (secondEnd < firstStart)
+  console.log({firstStart, firstEnd, secondStart, secondEnd, exclusive})
+
+  return !exclusive
+}
+
 const pairs = parse();
 // console.log(pairs)
 
 const fullyContained = pairs.map(isFullyContained)
 console.log(fullyContained)
-const count = fullyContained.filter((contained) => contained).length
-console.log(count)
+const fullyContainedCount = fullyContained.filter((contained) => contained).length
+console.log(fullyContainedCount)
+
+const overlaps = pairs.map(isOverlap)
+const overlapCount = overlaps.filter((overlap) => overlap).length
+console.log(overlapCount)
