@@ -1,11 +1,12 @@
 import * as fs from 'fs'
 
 function parseStacks(lines) {
-  const stacks = [[]]
+  const stacks = {}
 
-  lines.forEach((line) => {
+  lines.forEach((line, i) => {
+    const stackId = line[0]
     const crates = line.slice(1).split('')
-    stacks.push(crates)
+    stacks[stackId] = crates
   })
 
   return stacks
@@ -15,8 +16,10 @@ function parseSteps(lines) {
   const regex = /move (\d+) from (\d+) to (\d+)/
 
   const steps = lines.map((line) => {
-    const [_, num, from, to] = line.match(regex)
-    return {num, from, to}
+    let [num, from, to] = line.match(regex).slice(1)
+    num = parseInt(num)
+
+    return { num, from, to }
   })
 
   return steps
@@ -27,11 +30,37 @@ function parse() {
   let lines = file.split('\n')
 
   const stacks = parseStacks(lines.slice(0, 9))
-  const steps = parseSteps(lines.slice(10))
+  const steps = parseSteps(lines.slice(9))
 
   return {stacks, steps}
 }
 
-const {stacks, steps} = parse()
+let {stacks, steps} = parse()
 
-console.log(stacks, steps)
+console.log(stacks)
+console.log(steps)
+
+steps.forEach((step) => {
+  const {num, from, to} = step
+  console.log({stacks, step})
+  console.log('')
+
+  for (let i = 0; i < num; i++) {
+    const top = stacks[from].pop()
+
+    if (!top) {
+      console.log({stacks, step})
+      throw 'asdf';
+    }
+
+    stacks[to].push(top)
+  }
+})
+
+console.log(stacks)
+
+const tops = Object.values(stacks).map((stack) => {
+  return stack[stack.length - 1]
+}).join('')
+
+console.log(tops)
